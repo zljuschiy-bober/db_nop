@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+ {% block title %}
+   Перегляд ФІРМИ: {{firm.id}}
+ {% endblock %}
+{% load staticfiles %}
+{% block content %}
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Назва</th>
+        <th scope="col">Директор</th>
+        <th scope="col">Телефон (1)</th>
+        <th scope="col">Телефон (2)</th>
+        <th scope="col">Договір</th>
+        <th scope="col">Документ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{firm.name}}</td>
+        <td>{{firm.director}}</td>
+        <td>{{firm.telefon1}}</td>
+        <td>{{firm.telefon2}}</td>
+        <td>{{firm.dogovor}}</td>
+        <td>
+          <a href ="/scan/{{firm.dogovor_file}}"><img src="{% static 'img/docicon.png' %}" class="icon" height="20"</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+{% endblock %}

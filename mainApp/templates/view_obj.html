@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+ {% block title %}
+   Перегляд Об'єктів
+ {% endblock %}
+{% block content %}
+{% load staticfiles %}
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Назва</th>
+        <th scope="col">Адреса</th>
+        <th scope="col">Район</th>
+        <th scope="col">Фірма</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for element in objects %}
+      <tr>
+        <td>{{element.name}}</td>
+        <td>{{element.address}}</td>
+        <td>{{element.rayon}}</td>
+        <td>{{element.firma}}</td>
+        <td>
+          <a href ="/obj={{element.id}}"><img src="{% static 'img/more.png' %}" class="icon" height="20"></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+<nav aria-label="Paginator">
+  <ul class="pagination justify-content-center">
+    {% if objects.has_previous %}
+       <li class="page-item"><a class="page-link" href="?page={{objects.previous_page_number}}">Попередня</a></li>
+    {% else %}
+       <li class="page-item disabled"><a class="page-link" href="">Попередня</a></li>
+    {% endif %}
+    {% for num in objects.paginator.page_range %}
+     {% if num == objects.number %}
+      <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+     {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+     {% endif %}
+    {% endfor %}
+     {% if objects.has_next %}
+       <li class="page-item"><a class="page-link" href="?page={{objects.next_page_number}}">Наступна</a></li>
+     {% else %}
+      <li class="page-item disabled"><a class="page-link" href="">Наступна</a></li>
+     {% endif %}
+  </ul>
+</nav>
+{% endblock %}

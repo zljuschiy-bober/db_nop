@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+ {% block title %}
+   Перегляд картки об`єкту: {{objects.id}}
+ {% endblock %}
+{% load staticfiles %}
+{% block content %}
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Назва</th>
+        <th scope="col">Адреса</th>
+        <th scope="col">Категорія</th>
+        <th scope="col">Тип</th>
+        <th scope="col">Район</th>
+        <th scope="col">Дата початку</th>
+        <th scope="col">Дата закінчення</th>
+        <th scope="col">Фірма (ох.)</th>
+        <th scope="col">Скан</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{objects.name}}</td>
+        <td>{{objects.address}}</td>
+        <td>{{objects.category}}</td>
+        <td>{{objects.type}}</td>
+        <td>{{objects.rayon}}</td>
+        <td>{{objects.date_start}}</td>
+        <td>{{objects.date_finish}}</td>
+        <td>{{objects.firma}}</td>
+        <td>
+          <a href ="/scan/{{objects.document}}"><img src="{% static 'img/docicon.png' %}" class="icon" height="20"</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+{% endblock %}

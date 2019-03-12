@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
+    <link rel="SHORTCUT ICON" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% include "header.html" %}
+    {% block content %}
+    {% endblock %}
+  <div class= "footer">
+    {% include "footer.html" %}
+    <hr>
+      &copy; Всі права захищено 2018
+  </div>
+  {% include "js.html" %}
+  </body>
+</html>

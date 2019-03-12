@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+ {% block title %}
+   Пошук об'єктів
+ {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <form method = "POST" class = "form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit" class = "btn btn-primary">Пошук</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

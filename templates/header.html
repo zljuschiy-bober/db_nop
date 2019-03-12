@@ -1,0 +1,59 @@
+<ul class="nav nav-tabs justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" href="/">Головна</a>
+  </li>
+  <li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+     aria-haspopup="true" aria-expanded="false">Довідники</a>
+     <div class="dropdown-menu">
+        <a class="dropdown-item" href="/view_rayon">Райони</a>
+        <a class="dropdown-item" href="/view_cat">Категорії</a>
+        <a class="dropdown-item" href="/view_firm">Фірми</a>
+      </div>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+     aria-haspopup="true" aria-expanded="false">Об`єкти</a>
+     <div class="dropdown-menu">
+        <a class="dropdown-item" href="/add_object">Додати</a>
+        <a class="dropdown-item" href="/search">Пошук</a>
+        <a class="dropdown-item" href="/view_obj">Перегляд</a>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Звітність</a>
+  </li>
+  {% else %}
+  <li class="nav-item">
+    <a class="nav-link disabled" data-toggle="dropdown" href="#" role="button"
+     aria-haspopup="true" aria-expanded="false" aria-disabled="true">Довідники:</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" data-toggle="dropdown" href="#" role="button"
+      aria-haspopup="true" aria-expanded="false" aria-disabled="true">Об`єкти:</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Звітність</a>
+  </li>
+{% endif %}
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Користувач:
+			 {% if user.is_authenticated %}
+			  {{ user.get_short_name }}
+			 {% endif %}
+		</a>
+    <div class="dropdown-menu">
+      {% if user.is_authenticated %}
+       <a class="dropdown-item" href="/profile">Профіль</a>
+       <a class="dropdown-item" href="#">#</a>
+			 <div class="dropdown-divider"></div>
+       <a class="dropdown-item" href="{% url 'logout'%}?next=/">Вийти</a>
+      {% endif %}
+      {% if not user.is_authenticated %}
+      <a class="dropdown-item" href="{% url 'login'%}?next={{request.path}}">Увійти</a>
+      {% endif %}
+    </div>
+  </li>
+</ul>

@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.index, name='index'),
     path('view_cat/', views.category_view, name='view_category'),
-    path('view_rayon/', views.Rayon_Edit, name='edit_rayon'),
+    path('view_region/', views.region_edit, name='edit_region'),
     # FIRM
-    path('view_firm/', views.Firm_add, name='add_firm'),
+    path('view_firm/', views.firm_add, name='add_firm'),
     url(r'^firm=(?P<pk>\d+)$', views.firm_detail, name='firm_detail'),
     # OBJECT
     path('add_object/', views.add_object, name='add_object'),

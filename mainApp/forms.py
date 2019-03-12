@@ -13,7 +13,7 @@ class FirmForm(forms.ModelForm):
     class Meta:
         model = Firms
         fields = ('name', 'director', 'yur_address', 'fiz_address', 'telephone1',
-                  'telephone2', 'dogovor', 'dogovor_file')
+                  'telephone2')
 
 
 class UserProfileForm(UserChangeForm):

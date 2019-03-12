@@ -30,9 +30,7 @@ class Firms(models.Model):
     fiz_address = models.CharField(max_length=255, verbose_name="Фіз. адреса")
     telephone1 = models.CharField(max_length=30, null=False, verbose_name="№ телефону")
     telephone2 = models.CharField(max_length=30, blank=True, verbose_name="№ телефону (дод)")
-    dogovor = models.CharField(max_length=50, verbose_name="№ договору")
-    dogovor_file = models.FileField(upload_to='dogovor', verbose_name="Скан договору")
-
+    
     def __str__(self):
         return self.name
 

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Regions, Category, Firms, Security_object
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseForbidden
-from .forms import RayonForm, FirmForm,  AddObjectForm, SearchObjectForm, UserProfileForm
+from .forms import RegionForm, FirmForm,  AddObjectForm, SearchObjectForm, UserProfileForm
 
 
 def index(request):

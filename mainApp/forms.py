@@ -1,17 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, User
-from .models import Regions, Firms, Security_object, Category
+from .models import regions, firms, security_object, category, dogovor
 
 
 class RegionForm(forms.ModelForm):
     class Meta:
-        model = Regions
+        model = regions
         fields = ('name', 'director', 'telephone')
 
 
 class FirmForm(forms.ModelForm):
     class Meta:
-        model = Firms
+        model = firms
         fields = ('name', 'director', 'yur_address', 'fiz_address', 'telephone1',
                   'telephone2')
 
@@ -25,7 +25,7 @@ class UserProfileForm(UserChangeForm):
 
 class AddObjectForm(forms.ModelForm):
     class Meta:
-        model = Security_object
+        model = security_object
         fields = ('name', 'region', 'firm', 'address', 'dogovor', 'document',
                   'state', 'category')
 
@@ -41,14 +41,19 @@ class SearchObjectForm(forms.Form):
 
     object_category = forms.ModelChoiceField(required=False,
                                              label="Виберіть категорію",
-                                             queryset=Category.objects.all(),
+                                             queryset=category.objects.all().order_by('name'),
                                              widget=forms.Select())
 
     object_firm = forms.ModelChoiceField(required=False,
                                          label="Виберіть назву фірми",
-                                         queryset=Firms.objects.all(),
+                                         queryset=firms.objects.all().order_by('name'),
                                          widget=forms.Select())
-    object_rayon = forms.ModelChoiceField(required=False,
+    object_region = forms.ModelChoiceField(required=False,
                                           label="Виберіть район",
-                                          queryset=Regions.objects.all(),
+                                          queryset=regions.objects.all().order_by('name'),
                                           widget=forms.Select())
+
+class AddDocumentForm(forms.ModelForm):
+    class Meta:
+        model = dogovor
+        fields = ('firm', 'name', 'state',  'date_start', 'date_finish', 'dogovor_file')

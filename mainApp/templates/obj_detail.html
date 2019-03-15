@@ -1,6 +1,6 @@
 {% extends "base.html" %}
  {% block title %}
-   Перегляд картки об`єкту: {{objects.id}}
+   Перегляд: {{objects.name}}
  {% endblock %}
 {% load staticfiles %}
 {% block content %}
@@ -25,7 +25,7 @@
         <td>{{objects.address}}</td>
         <td>{{objects.category}}</td>
         <td>{{objects.type}}</td>
-        <td>{{objects.rayon}}</td>
+        <td>{{objects.region}}</td>
         <td>{{objects.date_start}}</td>
         <td>{{objects.date_finish}}</td>
         <td>{{objects.firma}}</td>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
  {% block title %}
-   Фірми
+   Договора
  {% endblock %}
 {% block content %}
 {% load staticfiles %}
@@ -8,51 +8,53 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Назва</th>
-        <th scope="col">Телефон</th>
-        <th scope="col">Інфо</th>
+        <th scope="col">№</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Фірма</th>
+        <th scope="col">Тип</th>
         <th scope="col">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">+</button>
         </th>
       </tr>
     </thead>
     <tbody>
-      {% for element in firms %}
+      {% for element in docs %}
       <tr>
-        <td>{{element.id}}</td>
+        <th scope="row">{{forloop.counter}}</th>
         <td>{{element.name}}</td>
-        <td>{{element.telephone1}}</td>
+        <td>{{element.firm}}</td>
+        <td>{{element.state}}</td>
         <td>
-          <a href ="/firm={{element.id}}"><img src="{% static 'img/more.png' %}" class="icon" height="20"></a>
+          <a href ="/doc={{element.id}}"><img src="{% static 'img/more.png' %}" class="icon" height="20"></a>
         </td>
+
       </tr>
       {% endfor %}
     </tbody>
   </table>
   </div>
 <!-- Paginator -->
-  <nav aria-label="Paginator">
+<nav aria-label="Paginator">
     <ul class="pagination justify-content-center">
-      {% if firms.has_previous %}
-         <li class="page-item"><a class="page-link" href="?page={{firms.previous_page_number}}">Попередня</a></li>
+      {% if docs.has_previous %}
+         <li class="page-item"><a class="page-link" href="?page={{docs.previous_page_number}}">Попередня</a></li>
       {% else %}
          <li class="page-item disabled"><a class="page-link" href="">Попередня</a></li>
       {% endif %}
-      {% for num in firms.paginator.page_range %}
-       {% if num == firms.number %}
+      {% for num in docs.paginator.page_range %}
+       {% if num == docs.number %}
         <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
        {% else %}
         <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
        {% endif %}
       {% endfor %}
-       {% if firms.has_next %}
-         <li class="page-item"><a class="page-link" href="?page={{firms.next_page_number}}">Наступна</a></li>
+       {% if docs.has_next %}
+         <li class="page-item"><a class="page-link" href="?page={{docs.next_page_number}}">Наступна</a></li>
        {% else %}
         <li class="page-item disabled"><a class="page-link" href="">Наступна</a></li>
        {% endif %}
     </ul>
-  </nav>
+</nav>
   <!-- Modal -->
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -72,16 +74,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
         </div>
-      </div>
-    </div>
-  </div>
-  <!-- Small modal -->
-  <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <p class="text-left">Форма редагування: <p>
-        <p class="text-center">ФУНКЦІОНАЛ В РОЗРОБЦІ</p>
-        <p>
       </div>
     </div>
   </div>

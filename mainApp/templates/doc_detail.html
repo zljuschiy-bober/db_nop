@@ -1,6 +1,6 @@
 {% extends "base.html" %}
  {% block title %}
-   Перегляд: {{firm.name}}
+   Перегляд: {{document.name}}
  {% endblock %}
 {% load staticfiles %}
 {% block content %}
@@ -8,23 +8,25 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">Назва</th>
-        <th scope="col">Директор</th>
-        <th scope="col">Юр. адреса</th>
-        <th scope="col">Фіз. адреса</th>
-        <th scope="col">Телефон (1)</th>
-        <th scope="col">Телефон (2)</th>
+        <th scope="col">Номер</th>
+        <th scope="col">Фірма</th>
+        <th scope="col">Тип</th>
+        <th scope="col">Дата поч.</th>
+        <th scope="col">Дата зак.</th>
+        <th scope="col">Скан</th>
         <th scope="col">Редаг.</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>{{firm.name}}</td>
-        <td>{{firm.director}}</td>
-        <td>{{firm.yur_address}}</td>
-        <td>{{firm.fiz_address}}</td>
-        <td>{{firm.telephone1}}</td>
-        <td>{{firm.telephone2}}</td>
+        <td>{{document.name}}</td>
+        <td>{{document.firm}}</td>
+        <td>{{document.state}}</td>
+        <td>{{document.date_start}}</td>
+        <td>{{document.date_finish}}</td>
+        <td>
+          <a href ="/scan/{{document.dogovor_file}}"><img src="{% static 'img/docicon.png' %}" class="icon" height="20"</a>
+        </td>
         <td>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".info">...</button>
         </td>
@@ -40,5 +42,5 @@
         <p>
       </div>
     </div>
-  </div>  
+  </div>
 {% endblock %}

@@ -2,8 +2,8 @@ from django.contrib import admin
 from mainApp.models import *
 
 # Register your models here.
-admin.site.register(Category)
-admin.site.register(Firms)
-admin.site.register(Regions)
-admin.site.register(Security_object)
-admin.site.register(Dogovor)
+admin.site.register(category)
+admin.site.register(firms)
+admin.site.register(regions)
+admin.site.register(security_object)
+admin.site.register(dogovor)

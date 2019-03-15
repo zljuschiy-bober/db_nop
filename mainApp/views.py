@@ -1,9 +1,9 @@
 ﻿from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Regions, Category, Firms, Security_object
+from .models import regions, category, firms, security_object, dogovor
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseForbidden
-from .forms import RegionForm, FirmForm,  AddObjectForm, SearchObjectForm, UserProfileForm
+from .forms import RegionForm, FirmForm,  AddObjectForm, SearchObjectForm, UserProfileForm, AddDocumentForm
 
 
 def index(request):
@@ -12,77 +12,60 @@ def index(request):
 
 @login_required
 def firm_detail(request, pk):
-    firma = Firms.objects.get(id=pk)
+    firma = firms.objects.get(id=pk)
     return render(request, 'firm_detail.html', {'firm': firma})
 
 
 @login_required
 def firm_edit(request, ident):
-    a = Firms.objects.get(id=ident)
-    f = FirmForm(request.POST, instance=a)
+    a = firm.objects.get(id=ident)
+    f = firmForm(request.POST, instance=a)
     f.save()
     return render(request, 'view_f.html', {'firms': f})
 
 
 @login_required
+def firm_view(request):
+    if request.method == "POST":
+        form = FirmForm(request.POST, request.FILES)
+        if form.is_valid():
+            firmy.save()
+            return redirect('/', {'result': 'success', 'id': firmy.id})
+    Firms = firms.objects.all()
+    formFirm = FirmForm()
+    return render(request, 'view_f.html', {'form': formFirm, 'firms': Firms})
+
+
+@login_required
 def category_view(request):
-    categorys = Category.objects.all()
-    return render(request, 'view_cat.html', {'categorys': categorys})
+    category_all = category.objects.all().order_by('name')
+    this_page = Paginator(category_all, 10)
+    num_page = request.GET.get('page')
+    try:
+        page_content = this_page.page(num_page)
+    except PageNotAnInteger:
+        page_content = this_page.page(1)
+    except EmptyPage:
+        page_content = this_page.page(this_page.page(this_page.num_pages))
+    return render(request, 'view_cat.html', {'categorys': page_content})
 
 
+@login_required
 def region_edit(request):
-    if request.user.is_anonymous or not request.user.is_authenticated:
-        return HttpResponseForbidden()
-    else:
-        if request.method == "POST":
-            form = RayonForm(request.POST, request.FILES)
-            if form.is_valid():
-                rayonu = form.save(commit=False)
-                rayonu.save()
-                return redirect('/')
-        else:
-            rayons = Regions.objects.all()
-            form = RayonForm()
-            return render(request, 'view_rayon.html', {'form': form, 'regions': rayons})
+    if request.method == "POST":
+        form = RayonForm(request.POST, request.FILES)
+        if form.is_valid():
+            rayonu.save()
+            return redirect('/', {'result': 'success', 'id': rayonu.id})
+    rayons = regions.objects.all().order_by('name')
+    form = RegionForm()
+    return render(request, 'view_region.html', {'form': form, 'regions': rayons})
 
 
-def firm_add(request):
-    if request.user.is_anonymous or not request.user.is_authenticated:
-        return HttpResponseForbidden()
-    else:
-        if request.method == "POST":
-            form = FirmForm(request.POST, request.FILES)
-            if form.is_valid():
-                firmy = form.save(commit=False)
-                firmy.save()
-                return redirect('/')
-        else:
-            firms = Firms.objects.all()
-            formFirm = FirmForm()
-            return render(request, 'view_f.html', {'form': formFirm, 'firms': firms})
-
-
-def rayon_view(request):
-    if request.user.is_anonymous or not request.user.is_authenticated:
-        return HttpResponseForbidden()
-    else:
-        rayons = Regions.objects.all()
-        return render(request, 'view_rayon.html', {'rayons': rayons})
-
-
-def add_object(request):
-    if request.user.is_anonymous or not request.user.is_authenticated:
-        return HttpResponseForbidden()
-    else:
-        if request.method == "POST":
-            forma = AddObjectForm(request.POST, request.FILES)
-            if forma.is_valid():
-                object1 = forma.save(commit=False)
-                object1.save()
-                return redirect('/')
-        else:
-            formObject = AddObjectForm()
-            return render(request, 'add_object.html', {'form': formObject})
+@login_required
+def region_view(request):
+    rayons = regions.objects.all().order_by('name')
+    return render(request, 'view_region.html', {'rayons': rayons})
 
 
 def search_object(request):
@@ -97,7 +80,7 @@ def search_object(request):
                 search_address = forma.cleaned_data['object_address'].lower().strip()
                 search_category = forma.cleaned_data['object_category']
                 search_firm = forma.cleaned_data['object_firm']
-                search_rayon = forma.cleaned_data['object_rayon']
+                search_rayon = forma.cleaned_data['object_region']
                 # Слепить запрос
                 #schto = None
                 # Вывести
@@ -122,7 +105,6 @@ def view_profile(request):
     if request.method == "POST":
         forma = UserProfileForm(request.POST, request.FILES)
         if forma.is_valid():
-            user= forma.save(commit=False)
             user.save()
             return redirect('/')
     else:
@@ -132,19 +114,63 @@ def view_profile(request):
 
 @login_required
 def object_view_all(request):
-    object_all = Security_object.objects.all().order_by('name', 'firm', 'rayon')
+    if request.method == "POST":
+        formObj = AddObjectForm(request.POST, request.FILES)
+        if formObj.is_valid():
+        # проверка на дату
+           Secobject.save()
+           return redirect('/', {'result': 'success', 'id': Secobject.id})
+    object_all = security_object.objects.all().order_by('name', 'firm', 'region')
     this_page = Paginator(object_all, 10)
     num_page = request.GET.get('page')
+    objForm = AddObjectForm()
     try:
         page_content = this_page.page(num_page)
     except PageNotAnInteger:
         page_content = this_page.page(1)
     except EmptyPage:
         page_content = this_page.page(this_page.page(this_page.num_pages))
-    return render(request, 'view_obj.html', {'objects': page_content})
+    return render(request, 'view_obj.html', {'objects': page_content, 'form': objForm})
 
 
 @login_required
 def object_detail(request, pk):
-    object_v = Security_object.objects.get(id=pk)
+    object_v = security_object.objects.get(id=pk)
     return render(request, 'obj_detail.html', {'objects': object_v})
+
+# DOCUMENTS
+@login_required
+def doc_view_all(request):
+    if request.method == "POST":
+        form = AddDocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+        # Проверка на дату
+           document = form.save(commit=False)
+           document.save()
+           return redirect('/', {'result': 'success', 'id': document.id})
+    doc_all = dogovor.objects.all().order_by('name', 'firm')
+    this_page = Paginator(doc_all, 10)
+    num_page = request.GET.get('page')
+    docForm = AddDocumentForm()
+    try:
+        page_content = this_page.page(num_page)
+    except PageNotAnInteger:
+        page_content = this_page.page(1)
+    except EmptyPage:
+        page_content = this_page.page(this_page.page(this_page.num_pages))
+    return render(request, 'view_doc.html', {'docs': page_content, 'form': docForm})
+
+
+@login_required
+def doc_detail(request, pk):
+    doc_v = dogovor.objects.get(id=pk)
+    return render(request, 'doc_detail.html', {'document': doc_v})
+
+
+@login_required
+def search_doc(request):
+    if request.method == "POST":
+       forma = SearchObjectForm(request.POST, request.FILES)
+       searchForm = SearchDocumentForm()
+       return render(request, 'search_doc.html', {'form': searchForm})
+    return redirect('/')

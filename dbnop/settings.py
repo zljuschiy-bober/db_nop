@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('D:/Git/sk_dbnop.txt') as f:
+with open('d:/Git/sk_dbnop.txt') as f:
     SECRET_KEY = f.read().strip()
 
-#SECRET_KEY = 
+#SECRET_KEY = '5_6%nkm3@fx8(jf)4-0x1_i*_zv+2!@$_cf+x_(r^$=z^%tsl3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainApp',
+    'mainApp'
 ]
 
 MIDDLEWARE = [
@@ -78,12 +78,16 @@ WSGI_APPLICATION = 'dbnop.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'db_nop',
+#        'USER': 'db_nop_user',
+#        'PASSWORD': 'db_nop_password',
+#        'HOST': '127.0.0.1',
+#    }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'db_nop',
-        'USER': 'db_nop_user',
-        'PASSWORD': 'db_nop_password',
-        'HOST': '127.0.0.1',
     }
 }
 

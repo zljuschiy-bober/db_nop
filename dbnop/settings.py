@@ -23,12 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open('d:/Git/sk_dbnop.txt') as f:
     SECRET_KEY = f.read().strip()
 
-#SECRET_KEY = '5_6%nkm3@fx8(jf)4-0x1_i*_zv+2!@$_cf+x_(r^$=z^%tsl3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainApp'
+    'mainApp',
 ]
 
 MIDDLEWARE = [
@@ -129,19 +129,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 # ENTRY
-#STATIC_URL = '/static/'
-##STATIC_ROOT = os.path.join(BASE_DIR, "static")
-#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
-#MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'scan')
+MEDIA_ROOT = os.path.join(BASE_DIR, "files", "scan")
 MEDIA_URL = '/scan/'
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'files', 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'files', 'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, "files", "static")
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'files', 'static'),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

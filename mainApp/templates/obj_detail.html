@@ -1,6 +1,6 @@
 {% extends "base.html" %}
  {% block title %}
-   Перегляд: {{objects.name}}
+   Перегляд: {{object.name}}
  {% endblock %}
 {% load staticfiles %}
 {% block content %}
@@ -17,23 +17,44 @@
         <th scope="col">Дата закінчення</th>
         <th scope="col">Фірма (ох.)</th>
         <th scope="col">Скан</th>
+        <th scope="col">Редаг.</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>{{objects.name}}</td>
-        <td>{{objects.address}}</td>
-        <td>{{objects.category}}</td>
-        <td>{{objects.type}}</td>
-        <td>{{objects.region}}</td>
-        <td>{{objects.date_start}}</td>
-        <td>{{objects.date_finish}}</td>
-        <td>{{objects.firma}}</td>
+        <td>{{object.name}}</td>
+        <td>{{object.address}}</td>
+        <td>{{object.category}}</td>
+        <td>{{object.type}}</td>
+        <td>{{object.region}}</td>
+        <td>{{object.date_start}}</td>
+        <td>{{object.date_finish}}</td>
+        <td>{{object.firma}}</td>
         <td>
-          <a href ="/scan/{{objects.document}}"><img src="{% static 'img/docicon.png' %}" class="icon" height="20"</a>
+          <a href ="/scan/{{object.document}}"><img src="{% static 'img/docicon.png' %}" class="icon" height="20"</a>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".info">...</button>
         </td>
       </tr>
     </tbody>
   </table>
+  </div>
+  <div class="modal fade info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <p class="text-center">Форма редагування: </p>
+          <form method = "POST" class = "form" enctype="multipart/form-data">{% csrf_token %}
+              {{ form.as_p }}
+              <div class="modal-footer">
+                <button type = "submit" class="btn btn-primary" data-toggle="modal">Зберегти</button>
+                <input name="delete" value="del" type="hidden">
+                <input name="object" value="{{object.id}}" type="hidden">
+                <button type ="submit" value="del" class="btn btn-danger" data-toggle="modal">Видалити</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              </div>
+          </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

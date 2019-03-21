@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('d:/Git/sk_dbnop.txt') as f:
+with open('d:/Python/django/sk_dbnop.txt') as f:
     SECRET_KEY = f.read().strip()
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['127.0.0.1']
@@ -78,16 +78,9 @@ WSGI_APPLICATION = 'dbnop.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'db_nop',
-#        'USER': 'db_nop_user',
-#        'PASSWORD': 'db_nop_password',
-#        'HOST': '127.0.0.1',
-#    }
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db_nop',
+        'NAME': os.path.join(BASE_DIR, 'db_nop'),
     }
 }
 
@@ -129,14 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 # ENTRY
-MEDIA_ROOT = os.path.join(BASE_DIR, "files", "scan")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'scan')
 MEDIA_URL = '/scan/'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "files", "static")
-#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'files', 'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'files', 'static'),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-#LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

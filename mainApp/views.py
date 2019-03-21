@@ -1,5 +1,5 @@
 ﻿from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import regions, category, firms, security_object, dogovor
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseForbidden
@@ -12,16 +12,17 @@ def index(request):
 
 @login_required
 def firm_detail(request, pk):
-    firma = firms.objects.get(id=pk)
-    return render(request, 'firm_detail.html', {'firm': firma})
-
-
-@login_required
-def firm_edit(request, ident):
-    a = firm.objects.get(id=ident)
-    f = firmForm(request.POST, instance=a)
-    f.save()
-    return render(request, 'view_f.html', {'firms': f})
+    firma = get_object_or_404(firms, pk=pk)
+    if request.method == "POST":
+        form = FirmForm(request.POST, request.FILES, instance=firma)
+        if form.is_valid():
+            firm_f = form.save()
+            firm_f.save()
+            return render(request, 'firm_detail.html', {'result': 'success', 'firm': firm_f})
+    else:
+        firma = firms.objects.get(id=pk)
+        form = FirmForm(instance=firma)
+        return render(request, 'firm_detail.html', {'form': form, 'firm': firma})
 
 
 @login_required
@@ -29,8 +30,9 @@ def firm_view(request):
     if request.method == "POST":
         form = FirmForm(request.POST, request.FILES)
         if form.is_valid():
-            firmy.save()
-            return redirect('/', {'result': 'success', 'id': firmy.id})
+            firm_f = form.save(commit=False)
+            firm_f.save()
+            return redirect('/', {'result': 'success', 'id': firm_f.id})
     Firms = firms.objects.all()
     formFirm = FirmForm()
     return render(request, 'view_f.html', {'form': formFirm, 'firms': Firms})
@@ -55,17 +57,12 @@ def region_edit(request):
     if request.method == "POST":
         form = RayonForm(request.POST, request.FILES)
         if form.is_valid():
-            rayonu.save()
-            return redirect('/', {'result': 'success', 'id': rayonu.id})
+            region = form.save(commit=False)
+            region.save()
+            return redirect('/', {'result': 'success', 'id': region.id})
     rayons = regions.objects.all().order_by('name')
     form = RegionForm()
     return render(request, 'view_region.html', {'form': form, 'regions': rayons})
-
-
-@login_required
-def region_view(request):
-    rayons = regions.objects.all().order_by('name')
-    return render(request, 'view_region.html', {'rayons': rayons})
 
 
 def search_object(request):
@@ -118,8 +115,9 @@ def object_view_all(request):
         formObj = AddObjectForm(request.POST, request.FILES)
         if formObj.is_valid():
         # проверка на дату
-           Secobject.save()
-           return redirect('/', {'result': 'success', 'id': Secobject.id})
+            object_f = formObj.save(commit=False)
+            object_f.save()
+            return redirect('/', {'result': 'success', 'id': object_f.id})
     object_all = security_object.objects.all().order_by('name', 'firm', 'region')
     this_page = Paginator(object_all, 10)
     num_page = request.GET.get('page')
@@ -135,8 +133,27 @@ def object_view_all(request):
 
 @login_required
 def object_detail(request, pk):
-    object_v = security_object.objects.get(id=pk)
-    return render(request, 'obj_detail.html', {'objects': object_v})
+    object = get_object_or_404(security_object, pk=pk)
+    if request.method == "POST":
+        objectForm = AddObjectForm(request.POST, request.FILES, instance=object)
+        button_del = request.POST.get('delete')
+        if button_del:
+            if button_del == 'del':
+                object_id = request.POST.get('object')
+                object = security_object.objects.get(id=object_id)
+                #object.delete()
+                #return render(request, '/', {'result': 'success'})
+                return redirect('/', {'result': 'success_object_del', 'id': object_id})
+        else:
+            if objectForm.is_valid():
+                object_f = objectForm.save()
+                object_f.save()
+                return render(request, 'obj_detail.html', {'result': 'success_object_save', 'object': object_f})
+    else:
+        object_f = security_object.objects.get(id=pk)
+        form = AddObjectForm(instance=object_f)
+        return render(request, 'obj_detail.html', {'form': form, 'object': object_f})
+
 
 # DOCUMENTS
 @login_required
@@ -147,7 +164,7 @@ def doc_view_all(request):
         # Проверка на дату
            document = form.save(commit=False)
            document.save()
-           return redirect('/', {'result': 'success', 'id': document.id})
+           return redirect('/', {'result': 'success_doc_save', 'id': document.id})
     doc_all = dogovor.objects.all().order_by('name', 'firm')
     this_page = Paginator(doc_all, 10)
     num_page = request.GET.get('page')

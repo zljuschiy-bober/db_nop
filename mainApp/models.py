@@ -45,7 +45,7 @@ class security_object(models.Model):
         ('in', 'Інше')
     )
     firm = models.ForeignKey('firms', on_delete=models.CASCADE, verbose_name="Ох. фірма")
-    dogovor = models.ForeignKey('dogovor', null=True, on_delete=models.SET_NULL, verbose_name="Договір")
+    dogovor = models.ForeignKey('dogovor', null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Договір")
     name = models.CharField(max_length=255, unique=True, null=False, blank=False, default='', db_index=True, verbose_name="Назва")
     address = models.CharField(max_length=255, null=False, blank=False, default='', verbose_name="Адреса")
     region = models.ForeignKey('regions', null=True, on_delete=models.SET_NULL, verbose_name="Район")

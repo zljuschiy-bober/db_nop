@@ -36,9 +36,19 @@
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <p class="text-left">Форма редагування: <p>
-        <p class="text-center">ФУНКЦІОНАЛ В РОЗРОБЦІ</p>
-        <p>
-      </div>
+          <div class="form">
+            <form method = "POST" class = "form" enctype="multipart/form-data">{% csrf_token %}
+              {{ form.as_p }}
+              <div class="modal-footer">
+                <button type = "submit" class="btn btn-primary" data-toggle="modal">Зберегти</button>
+                <input name="delete" value="del" type="hidden">
+                <input name="object" value="{{object.id}}" type="hidden">
+                <button type ="submit" value="del" class="btn btn-danger" data-toggle="modal">Видалити</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+              </div>
+          </form>
+        </div>
     </div>
-  </div>  
+  </div>
+</div>
 {% endblock %}
